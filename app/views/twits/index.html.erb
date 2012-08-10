@@ -1,0 +1,7 @@
+<% @twits.each do |twit| %>
+	<img src=<%=twit.user.google_pic%>>
+	<%=link_to twit.user.google_name, "mail to:"+twit.user.google_email%>:
+	<%= twit.status %>
+	<br>
+	<br>
+<% end %>
