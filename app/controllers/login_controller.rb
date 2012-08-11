@@ -49,4 +49,11 @@ class LoginController < ApplicationController
     session[:token_id] = token_pair.id
     redirect_to(twits_path)
   end
+  
+  def logout
+    if session[:token_id]
+      session.delete(:token_id)
+      redirect_to root_path
+    end
+  end
 end

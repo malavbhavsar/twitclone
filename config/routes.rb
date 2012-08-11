@@ -62,6 +62,8 @@ Twitclone::Application.routes.draw do
   
   match 'oauth2callback' => 'login#oauth2callback', :as => :oauth2callback
   
+  match 'logout' => 'login#logout', :as => :logout
+  
   resources :twits
   
 end
