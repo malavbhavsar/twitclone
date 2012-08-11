@@ -37,7 +37,7 @@ class TwitsController < ApplicationController
     if !@user_details
       check_session
     end
-    @twits = Twit.all
+    @twits = Twit.order('created_at DESC').all
   end
   
   def create
