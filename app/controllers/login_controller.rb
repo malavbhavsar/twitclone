@@ -29,7 +29,6 @@ class LoginController < ApplicationController
       @client.authorization.update_token!(token_pair.to_hash)
     end
     if @client.authorization.refresh_token && @client.authorization.expired?
-      debugger
       @client.authorization.fetch_access_token!
       token_pair = Tokenpair.find_by_id(session[:token_id])
       token_pair.update_token!(@client.authorization)

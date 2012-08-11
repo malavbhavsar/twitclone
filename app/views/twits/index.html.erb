@@ -1,4 +1,3 @@
-<%= link_to "Logout", url_for(logout_path)%>
 <img src=<%=@user_details['picture']%>><%= @user_details['name'] %>
 <br>
 <%= form_tag(url_for(twits_path), :method => "post") do %>
