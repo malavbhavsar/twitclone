@@ -1,3 +1,10 @@
+<img src=<%=@user_details['picture']%>><%= @user_details['name'] %>
+<br>
+<%= form_tag(url_for(twits_path), :method => "post") do %>
+  <%= text_area_tag(:twit) %>
+  <%= submit_tag("Twit") %>
+<% end %>
+<br>
 <% @twits.each do |twit| %>
 	<img src=<%=twit.user.google_pic%>>
 	<%=link_to twit.user.google_name, "mail to:"+twit.user.google_email%>:

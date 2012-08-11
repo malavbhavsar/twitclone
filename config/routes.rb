@@ -56,7 +56,7 @@ Twitclone::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
   
-  root :to => 'login#show'
+  root :to => 'login#title'
   
   match 'login' => 'login#login', :as => :login
   
