@@ -4,9 +4,8 @@ class LoginController < ApplicationController
   CLIENT_ID = '571308755426.apps.googleusercontent.com'
   CLIENT_SECRET ='D9O7PKMwPCZwrOifsTwR6GC9'
   REDIRECT_URI ='http://localhost:3000/oauth2callback'
-  
+
   before_filter :initialize_client, :only => [:login, :oauth2callback]
-  
   def initialize_client
     @client = Google::APIClient.new
     @client.authorization.client_id = CLIENT_ID
@@ -15,23 +14,23 @@ class LoginController < ApplicationController
     @client.authorization.redirect_uri = REDIRECT_URI
     @client.authorization.code = params[:code] if params[:code]
   end
-  
+
   def title
     if session[:token_id]
       redirect_to :action=>'login'
     end
   end
-  
+
   def login
     if session[:token_id]
-    # Load the access token here if it's available
+      # Load the access token here if it's available
       token_pair = Tokenpair.find_by_id(session[:token_id])
-      @client.authorization.update_token!(token_pair.to_hash)
+    @client.authorization.update_token!(token_pair.to_hash)
     end
     if @client.authorization.refresh_token && @client.authorization.expired?
       @client.authorization.fetch_access_token!
       token_pair = Tokenpair.find_by_id(session[:token_id])
-      token_pair.update_token!(@client.authorization)
+    token_pair.update_token!(@client.authorization)
     end
     unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
       redirect_to(@client.authorization.authorization_uri.to_s)
@@ -48,7 +47,7 @@ class LoginController < ApplicationController
     session[:token_id] = token_pair.id
     redirect_to(twits_path)
   end
-  
+
   def logout
     if session[:token_id]
       session.delete(:token_id)

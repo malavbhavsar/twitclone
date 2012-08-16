@@ -1,72 +1,91 @@
 <div class = 'row'>
-<div class = 'span2 offset1'>
-	<div class= 'well'>
-		<h4>		
-			Comig Soon!
-		</h4>
-		<dl>
-			<dt>User Profile</dt>
-			<dd>We will show user profile! In this pane only. And the right pane will contain twits ralted to that profile</dd>
-			<dt>Following</dt>
-			<dd>A user will be ablle to follow other user. Just like twitter.</dd>
-			<dt>Hashtags#</dt>
-			<dd>Just like twitter!</dd>
-			<dt>Tagging@</dt>
-			<dd>Just like twitter!</dd>
-		</dl>
-		<br>
-		<br>	
-		<br>	
-		<br>	
-		<br>	
-		<br>	
-		<br>	
-		<br>
-		<br>
-		<br>	
-		<br>	
-		<br>	
-		<br>	
-		<br>	
-		<br>	
-		<br>		
-	</div>
-</div>
-<div class = 'span8'>
-	<div class='row'>
-		<div class= 'span2'>
-			<img src=<%=@user_details['picture']%> height='48' width = '48'> <%=@user_details['name']%>
+	<div class = 'span2 offset1'>
+		<div class= 'well'>
+			<h4> Comig Soon! </h4>
+			<dl>
+				<dt>
+					User Profile
+				</dt>
+				<dd>
+					We will show user profile! In this pane only. And the right pane will contain twits ralted to that profile
+				</dd>
+				<dt>
+					Following
+				</dt>
+				<dd>
+					A user will be ablle to follow other user. Just like twitter.
+				</dd>
+				<dt>
+					Hashtags#
+				</dt>
+				<dd>
+					Just like twitter!
+				</dd>
+				<dt>
+					Tagging@
+				</dt>
+				<dd>
+					Just like twitter!
+				</dd>
+			</dl>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
 		</div>
-		<div class = 'span6'>
-			<%= form_tag(url_for(twits_path), :method => "post", :class => "form-inline") do %>
-  				<%= text_area_tag(:twit) %>
-  				<%= submit_tag("Twit" , :class=> 'btn btn-large btn-primary', :style=> 'vertical-align:bottom;') %>
-			<% end %>
+	</div>
+	<div class = 'span8'>
+		<div class='row'>
+			<div class='span8 well'>
+				<div class='row'>
+					<div class= 'span2'>
+						<img src=<%= @user_details['picture']%> height='48' width = '48'> <%= @user_details['name']%>
+					</div>
+					<div class = 'span6'>
+						<%= form_tag(url_for(twits_path), :method => "post", :class => "form-inline") do %>
+						<%= text_area_tag(:twit) %>
+						<%= submit_tag("Twit" , :class=> 'btn btn-large btn-primary', :style=> 'vertical-align:bottom;') %>
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='span8 well'>
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#">Public Timeline</a>
+					</li>
+					<li>
+						<a href="#">My Timeline</a>
+					</li>
+				</ul>
+				<table class = 'table table-bordered table-striped table-condensed'>
+					<tbody>
+						<% @twits.each do |twit| %>
+						<tr>
+							<td rowspan="2"><img src=<%= twit.user.google_pic%> height='48' width = '48' ></td>
+							<td> <%= mail_to twit.user.google_email, twit.user.google_name%> </td>
+						</tr>
+						<tr>
+							<td> <%= twit.status %> </td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
-<ul class="nav nav-tabs">
-  <li class="active">
-    <a href="#">Public Timeline</a>
-  </li>
-  <li><a href="#">My Timeline</a></li>
-</ul>
-<table class = 'table table-bordered table-striped table-condensed'>
-	<tbody>
-	    <% @twits.each do |twit| %>
-		<tr>
-			<td rowspan="2">
-				<img src=<%=twit.user.google_pic%> height='48' width = '48' >
-			</td>
-			<td>
-				<%=mail_to twit.user.google_email, twit.user.google_name%>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<%= twit.status %>
-			</td>
-		</tr>
-		<% end %>
-	</tbody>
-</table>
 </div>
