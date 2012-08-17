@@ -9,7 +9,7 @@
 				<%= @user_details['name'] %>
 			</div>
 			<div class='pull-right'>
-				<img src=<%= @user_details['picture']%> height='32' width='32'  >
+				<img src=<%= @user_details['picture']%> height='32' width='32' class='thumbnail' >
 			</div>
 			<%else%>
 			<%= link_to "Sign in with google", login_path,:class  => 'btn btn-primary pull-right' %>

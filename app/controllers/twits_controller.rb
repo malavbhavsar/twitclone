@@ -40,6 +40,24 @@ class TwitsController < ApplicationController
     end
     @twits = Twit.order('created_at DESC').all
   end
+  
+  def my_timeline
+    if !@user_details
+      check_session
+    end
+    @twits = User.find_by_google_id(@user_details['id']).twits.order('created_at DESC')
+  end
+  
+  def user_timeline
+    if !@user_details
+      check_session
+    end
+    @user = User.find(params[:id])
+    if @user.google_id == @user_details['id']
+      redirect_to(:action=> 'my_timeline')
+    end
+    @twits = @user.twits.order('created_at DESC')
+  end
 
   def create
     if !@user_details
@@ -47,10 +65,10 @@ class TwitsController < ApplicationController
     end
     #nasty hack at pic
     # will fix later https://groups.google.com/forum/#!topic/sqlite3-ruby/SGRQE_2MZ8I%5B1-25%5D
-    @user = User.where(:google_id => @user_details['id']).first_or_create({:google_email => @user_details['email'],
+    user = User.where(:google_id => @user_details['id']).first_or_create({:google_email => @user_details['email'],
     :google_name=> @user_details['name'], :google_pic=> if @user_details['picture'] then @user_details['picture']
       else 'https://ssl.gstatic.com/s2/profiles/images/silhouette96.png' end})
-    Twit.create!({:status=>params['twit'], :user_id=>@user['id']})
+    Twit.create!({:status=>params['twit'], :user_id=>user['id']})
     redirect_to :action=>'index'
   end
 

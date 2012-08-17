@@ -64,6 +64,12 @@ Twitclone::Application.routes.draw do
   
   match 'logout' => 'login#logout', :as => :logout
   
+  match 'my_timeline' => 'twits#my_timeline', :as => :my_timeline
+  
+  match 'user_timeline/:id' => 'twits#user_timeline', :as => :user_timeline
+  
   resources :twits
+  
+  resources :users
   
 end

@@ -1,0 +1,11 @@
+<div class='row'>
+	<div class= 'span2'>
+		<img src=<%= @user_details['picture']%> height='48' width = '48'> <%= @user_details['name']%>
+	</div>
+	<div class = 'span6'>
+		<%= form_tag(url_for(twits_path), :method => "post", :class => "form-inline") do %>
+		<%= text_area_tag(:twit) %>
+		<%= submit_tag("Twit" , :class=> 'btn btn-large btn-primary', :style=> 'vertical-align:bottom;') %>
+		<% end %>
+	</div>
+</div>

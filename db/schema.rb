@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120802105319) do
+ActiveRecord::Schema.define(:version => 20120817002247) do
+
+  create_table "follow_tables", :force => true do |t|
+    t.integer  "followed_id", :null => false
+    t.integer  "follower_id", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "tokenpairs", :force => true do |t|
     t.string   "refresh_token"

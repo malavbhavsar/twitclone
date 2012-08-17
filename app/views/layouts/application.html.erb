@@ -16,25 +16,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body>
-		<div class="navbar navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="container">
-					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
-					<a class="brand" href="#">Twitclone</a>
-					<%if session[:token_id]%>
-					<%= link_to "Logout", logout_path, :class  => 'btn btn-primary pull-right'%>
-					<div class='pull-right'>
-						<%= @user_details['name'] %>
-					</div>
-					<div class='pull-right'>
-						<img src=<%= @user_details['picture']%> height='32' width='32'  >
-					</div>
-					<%else%>
-					<%= link_to "Sign in with google", login_path,:class  => 'btn btn-primary pull-right' %>
-					<%end%>
-				</div>
-			</div>
-		</div>
+		<%= render "shared/nav_bar" %>
 		<div class="container">
 			<%= yield %>
 		</div>

@@ -1,0 +1,13 @@
+<table class = 'table table-bordered table-striped table-condensed'>
+	<tbody>
+		<% @twits.each do |twit| %>
+		<tr>
+			<td rowspan="2"><img src=<%= twit.user.google_pic%> height='48' width = '48' ></td>
+			<td> <%= link_to twit.user.google_name, user_timeline_path(twit.user.id)%> </td>
+		</tr>
+		<tr>
+			<td> <%= twit.status %> </td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>

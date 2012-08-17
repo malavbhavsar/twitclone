@@ -1,0 +1,16 @@
+<div class= 'well'>
+	<img src=<%= @user.google_pic%>>
+	<br>
+	<br>
+	<%= @user.google_name%>
+	<br>
+	<br>
+	<a href="#"><img src='https://lh5.googleusercontent.com/-2r7nkB71SpM/AAAAAAAAAAI/AAAAAAAAExc/Avog9qId-tQ/s250-c-k/photo.jpg' height='30' width = '30'><a></a>
+	<br>
+	<br>
+	<%if FollowTable.find_by_follower_id_and_followed_id(User.find_by_google_id(@user_details['id']).id,@user.id) %>
+		<button class="btn btn-danger" href="#">Unfollow</button>
+	<%else%>
+		<button class="btn btn-success" href="#">Follow</button>
+	<%end%>
+</div>
