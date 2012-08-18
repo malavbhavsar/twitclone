@@ -68,6 +68,10 @@ Twitclone::Application.routes.draw do
   
   match 'user_timeline/:id' => 'twits#user_timeline', :as => :user_timeline
   
+  match 'follow/:id' => 'twits#follow', :as => :follow
+  
+  match 'unfollow/:id' =>  'twits#unfollow', :as => :unfollow
+  
   resources :twits
   
   resources :users

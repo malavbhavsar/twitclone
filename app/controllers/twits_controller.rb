@@ -45,7 +45,12 @@ class TwitsController < ApplicationController
     if !@user_details
       check_session
     end
-    @twits = User.find_by_google_id(@user_details['id']).twits.order('created_at DESC')
+    #Twit.find_by_sql("SELECT * from twits where twits.user_id="+)
+    array = Array.new
+    FollowTable.find_all_by_follower_id(User.find_by_google_id(@user_details['id']).id).each do |x| (array<<x.followed_id) end
+    
+    @twits = (User.find_by_google_id(@user_details['id']).twits + 
+    Twit.find_all_by_user_id(array))
   end
   
   def user_timeline
@@ -56,7 +61,12 @@ class TwitsController < ApplicationController
     if @user.google_id == @user_details['id']
       redirect_to(:action=> 'my_timeline')
     end
-    @twits = @user.twits.order('created_at DESC')
+    
+    array = Array.new
+    FollowTable.find_all_by_follower_id(@user.id).each do |x| (array<<x.followed_id) end
+    
+    @twits = (@user.twits + 
+    Twit.find_all_by_user_id(array))
   end
 
   def create
@@ -70,6 +80,22 @@ class TwitsController < ApplicationController
       else 'https://ssl.gstatic.com/s2/profiles/images/silhouette96.png' end})
     Twit.create!({:status=>params['twit'], :user_id=>user['id']})
     redirect_to :action=>'index'
+  end
+  
+  def follow
+    if !@user_details
+      check_session
+    end
+    FollowTable.create!(:followed_id=>params[:id],:follower_id=>User.find_by_google_id(@user_details['id']).id)
+    redirect_to :back
+  end
+  
+  def unfollow
+    if !@user_details
+      check_session
+    end
+    FollowTable.find_by_follower_id_and_followed_id(User.find_by_google_id(@user_details['id']).id,params[:id]).destroy
+    redirect_to :back
   end
 
 end
