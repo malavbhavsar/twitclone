@@ -5,7 +5,6 @@ class TwitsController < ApplicationController
   CLIENT_ID = Yetting.client_id
   CLIENT_SECRET =Yetting.client_secret
   REDIRECT_URI =Yetting.redirect_uri
-  SCOPE = Yetting.scope
 
   before_filter :check_session
   def check_session
@@ -13,7 +12,7 @@ class TwitsController < ApplicationController
       @client = Google::APIClient.new
       @client.authorization.client_id = CLIENT_ID
       @client.authorization.client_secret = CLIENT_SECRET
-      @client.authorization.scope = SCOPE 
+      @client.authorization.scope = ['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.email'] 
       @client.authorization.redirect_uri = REDIRECT_URI
       @client.authorization.code = params[:code] if params[:code]
 

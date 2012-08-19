@@ -1,6 +1,5 @@
 defaults: &defaults
-  scope: ['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.email']
-
+  
 development:
   <<: *defaults
   client_id: 571308755426.apps.googleusercontent.com
