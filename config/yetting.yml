@@ -16,5 +16,5 @@ test:
 production:
   <<: *defaults
   client_id: 571308755426-ej3mban516jph0biijoe6ji159r0gegm.apps.googleusercontent.com
-  client secret: LlD2ZFgM8pd093FzQDQ6fc16
-  redirect_uri: https://mlav.herokuapp.com/oauth2callback
+  client_secret: LlD2ZFgM8pd093FzQDQ6fc16
+  redirect_uri: http://still-cove-9467.herokuapp.com/oauth2callback
