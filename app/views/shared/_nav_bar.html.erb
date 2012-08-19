@@ -5,7 +5,7 @@
 			<a class="brand" href="#">Twitclone</a>
 			<%if session[:token_id]%>
 			<%= link_to "Logout", logout_path, :class  => 'btn btn-primary pull-right'%>
-			<div class='pull-right'>
+			<div class='pull-right' style='margin-left:5px; margin-top:10px'>
 				<%= @user_details['name'] %>
 			</div>
 			<div class='pull-right'>

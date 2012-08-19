@@ -1,16 +1,18 @@
 require 'google/api_client'
 
 class LoginController < ApplicationController
-  CLIENT_ID = '571308755426.apps.googleusercontent.com'
-  CLIENT_SECRET ='D9O7PKMwPCZwrOifsTwR6GC9'
-  REDIRECT_URI ='http://localhost:3000/oauth2callback'
+  CLIENT_ID = Yetting.client_id
+  CLIENT_SECRET =Yetting.client_secret
+  REDIRECT_URI =Yetting.redirect_uri
+  SCOPE = Yetting.scope
 
   before_filter :initialize_client, :only => [:login, :oauth2callback]
+  
   def initialize_client
     @client = Google::APIClient.new
     @client.authorization.client_id = CLIENT_ID
     @client.authorization.client_secret = CLIENT_SECRET
-    @client.authorization.scope = ['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.email']
+    @client.authorization.scope = SCOPE
     @client.authorization.redirect_uri = REDIRECT_URI
     @client.authorization.code = params[:code] if params[:code]
   end

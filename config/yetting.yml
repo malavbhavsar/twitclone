@@ -1,0 +1,20 @@
+defaults: &defaults
+  scope: [https://www.googleapis.com/auth/userinfo.profile,https://www.googleapis.com/auth/userinfo.email]
+
+development:
+  <<: *defaults
+  client_id: 571308755426.apps.googleusercontent.com
+  client_secret: D9O7PKMwPCZwrOifsTwR6GC9
+  redirect_uri: http://localhost:3000/oauth2callback
+
+test:
+  <<: *defaults
+  client_id: 571308755426.apps.googleusercontent.com
+  client_secret: D9O7PKMwPCZwrOifsTwR6GC9
+  redirect_uri: http://localhost:3000/oauth2callback
+
+production:
+  <<: *defaults
+  client_id: 571308755426-ej3mban516jph0biijoe6ji159r0gegm.apps.googleusercontent.com
+  client secret: LlD2ZFgM8pd093FzQDQ6fc16
+  redirect_uri: https://mlav.herokuapp.com/oauth2callback

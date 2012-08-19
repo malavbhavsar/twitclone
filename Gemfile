@@ -31,6 +31,9 @@ gem 'google-api-client'
 
 gem 'jquery-rails'
 
+gem 'yettings'
+
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
