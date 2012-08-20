@@ -33,6 +33,8 @@ gem 'jquery-rails'
 
 gem 'yettings'
 
+gem 'rails_autolink'
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
