@@ -1,6 +1,7 @@
 require 'google/api_client'
 
 class TwitsController < ApplicationController
+  include Twitter::Extractor
 
   CLIENT_ID = Yetting.client_id
   CLIENT_SECRET =Yetting.client_secret
@@ -68,7 +69,9 @@ class TwitsController < ApplicationController
     user = User.where(:google_id => @user_details['id']).first_or_create({:google_email => @user_details['email'],
       :google_name=> @user_details['name'], :google_pic=> if @user_details['picture'] then @user_details['picture']
       else 'https://ssl.gstatic.com/s2/profiles/images/silhouette96.png' end})
-    Twit.create!({:status=>params['twit'], :user_id=>user['id']})
+    twit = Twit.new({:status=>params['twit'], :user_id=>user['id']})
+    twit.tag_list = extract_hashtags(params['twit']).uniq.join(",")
+    twit.save
     redirect_to :action=>'index'
   end
 
@@ -84,6 +87,10 @@ class TwitsController < ApplicationController
 
   def current_user
     User.find_by_google_id(@user_details['id'])
+  end
+  
+  def tag
+    @twits = Twit.tagged_with(params['taglabel']).by_join_date
   end
 
 end
