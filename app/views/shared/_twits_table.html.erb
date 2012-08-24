@@ -8,9 +8,7 @@
 		</tr>
 		<tr>
 			<td style="word-break:break-all;">
-				<%=auto_link(twit.status, :html => { :target => '_blank' }) do |text|%>
-  					<%truncate(text, :length => 20)%>
-				<%end%>
+				<%=auto_link(twit.status, :hashtag_url_base=> '/tag/' , :suppress_no_follow=> true ).html_safe%>
  			</td>
 		</tr>
 		<% end %>

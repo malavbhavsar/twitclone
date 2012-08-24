@@ -1,4 +1,5 @@
 require 'google/api_client'
+require 'acts-as-taggable-on'
 
 class TwitsController < ApplicationController
   include Twitter::Extractor

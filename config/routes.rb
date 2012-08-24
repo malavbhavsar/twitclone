@@ -72,6 +72,8 @@ Twitclone::Application.routes.draw do
   
   match 'unfollow/:id' =>  'twits#unfollow', :as => :unfollow
   
+  match 'tag/:taglabel' => 'twits#tag', :as => :tag
+  
   resources :twits
   
   resources :users

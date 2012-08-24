@@ -33,8 +33,9 @@ gem 'jquery-rails'
 
 gem 'yettings'
 
-gem 'rails_autolink'
+gem 'twitter-text', '~> 1.5.0'
 
+gem 'acts-as-taggable-on', '~> 2.3.1'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

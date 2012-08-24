@@ -1,0 +1,28 @@
+<div class = 'row'>
+	<div class = 'span2 offset1'>
+		<%= render 'shared/coming_soon'%>
+	</div>
+	<div class = 'span8'>
+		<div class='row'>
+			<div class='span8 well'>
+				<%= render 'shared/create_twit'%>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='span8 well' >
+				<ul class="nav nav-tabs">
+					<li>
+						<a href=<%=url_for(:action=>'index')%>>Public Timeline</a>
+					</li>
+					<li>
+						<a href=<%=my_timeline_path%>>My Timeline</a>
+					</li>
+					<li class="active">
+						<a href="#">#<%=params['taglabel']%></a>
+					</li>
+				</ul>
+				<%= render 'shared/twits_table'%>
+			</div>
+		</div>
+	</div>
+</div>
