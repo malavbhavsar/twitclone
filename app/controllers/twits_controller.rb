@@ -6,13 +6,13 @@ class TwitsController < ApplicationController
   CLIENT_SECRET =Yetting.client_secret
   REDIRECT_URI =Yetting.redirect_uri
 
-  before_filter :check_session
+  before_filter :check_session, :except => [:current_user]
   def check_session
     if !@user_details
       @client = Google::APIClient.new
       @client.authorization.client_id = CLIENT_ID
       @client.authorization.client_secret = CLIENT_SECRET
-      @client.authorization.scope = ['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.email'] 
+      @client.authorization.scope = ['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.email']
       @client.authorization.redirect_uri = REDIRECT_URI
       @client.authorization.code = params[:code] if params[:code]
 
@@ -42,24 +42,23 @@ class TwitsController < ApplicationController
   def my_timeline
     #Twit.find_by_sql("SELECT * from twits where twits.user_id="+)
     array = Array.new
-    FollowTable.find_all_by_follower_id(User.find_by_google_id(@user_details['id']).id).each do |x| (array<<x.followed_id) end
-
-    @twits = (User.find_by_google_id(@user_details['id']).twits +
-    Twit.find_all_by_user_id(array))
-    @twits.sort! {|x,y| y.created_at<=>x.created_at} #not sure if this works correctly!
+    @twits = current_user.twits
+    current_user.follow_instances.each do |x| (array+=x.followed.twits) end
+    @twits += array
+    @twits.sort! {|x,y| y.created_at<=>x.created_at}
+  #not sure if this works correctly!
   end
 
   def user_timeline
     @user = User.find(params[:id])
-    if @user.google_id == @user_details['id']
+    if @user == current_user
       redirect_to(:action=> 'my_timeline')
     end
 
     array = Array.new
-    FollowTable.find_all_by_follower_id(@user.id).each do |x| (array<<x.followed_id) end
-
-    @twits = (@user.twits +
-    Twit.find_all_by_user_id(array))
+    @twits = @user.twits
+    @user.follow_instances.each do |x| (array+=x.followed.twits) end
+    @twits += array
     @twits.sort! {|x,y| y.created_at<=>x.created_at} #not sure if this works correctly!
   end
 
@@ -74,13 +73,17 @@ class TwitsController < ApplicationController
   end
 
   def follow
-    FollowTable.create!(:followed_id=>params[:id],:follower_id=>User.find_by_google_id(@user_details['id']).id)
+    FollowTable.create!(:followed_id=>params[:id],:follower_id=>current_user.id)
     redirect_to :back
   end
 
   def unfollow
-    FollowTable.find_by_follower_id_and_followed_id(User.find_by_google_id(@user_details['id']).id,params[:id]).destroy
+    FollowTable.find_by_follower_id_and_followed_id(current_user.id,params[:id]).destroy
     redirect_to :back
+  end
+
+  def current_user
+    User.find_by_google_id(@user_details['id'])
   end
 
 end
