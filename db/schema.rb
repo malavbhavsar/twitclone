@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20120824222532) do
   end
 
   create_table "users", :force => true do |t|
+    t.string   "username",     :null => false
     t.string   "google_id",    :null => false
     t.string   "google_email", :null => false
     t.string   "google_name",  :null => false

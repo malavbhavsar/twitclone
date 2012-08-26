@@ -50,9 +50,14 @@ class TwitsController < ApplicationController
     @twits.sort! {|x,y| y.created_at<=>x.created_at}
   #not sure if this works correctly!
   end
+  
+  
 
   def user_timeline
-    @user = User.find(params[:id])
+    @user = User.find_by_username(params[:username])
+    if !@user
+      raise ActionController::RoutingError.new('Not Found')
+    end
     if @user == current_user
       redirect_to(:action=> 'my_timeline')
     end
@@ -66,9 +71,13 @@ class TwitsController < ApplicationController
 
   def create
     #nasty hack at pic
-    # will fix later https://groups.google.com/forum/#!topic/sqlite3-ruby/SGRQE_2MZ8I%5B1-25%5D
-    user = User.where(:google_id => @user_details['id']).first_or_create({:google_email => @user_details['email'],
-      :google_name=> @user_details['name'], :google_pic=> if @user_details['picture'] then @user_details['picture']
+    # will fix later https://groups.google.com/forum/#!topic/sqlite3-ruby/SGRQE_2MZ8I%5B1-25%5D    
+    
+    user = User.where(:google_id => @user_details['id']).first_or_create({ 
+      :username=> suggest_username(@user_details['name'].gsub(/[^a-zA-Z0-9]/, "")), 
+      :google_email => @user_details['email'],
+      :google_name=> @user_details['name'], 
+      :google_pic=> if @user_details['picture'] then @user_details['picture']
       else 'https://ssl.gstatic.com/s2/profiles/images/silhouette96.png' end})
     twit = Twit.new({:status=>params['twit'], :user_id=>user['id']})
     twit.tag_list = extract_hashtags(params['twit']).uniq.join(",")
@@ -77,12 +86,12 @@ class TwitsController < ApplicationController
   end
 
   def follow
-    FollowTable.create!(:followed_id=>params[:id],:follower_id=>current_user.id)
+    FollowTable.create!(:followed_id=>User.find_by_username(params[:username]).id,:follower_id=>current_user.id)
     redirect_to :back
   end
 
   def unfollow
-    FollowTable.find_by_follower_id_and_followed_id(current_user.id,params[:id]).destroy
+    FollowTable.find_by_follower_id_and_followed_id(current_user.id,User.find_by_username(params[:username]).id).destroy
     redirect_to :back
   end
 
@@ -93,5 +102,15 @@ class TwitsController < ApplicationController
   def tag
     @twits = Twit.tagged_with(params['taglabel']).by_join_date
   end
-
+  
+  def suggest_username(username)
+    if !User.find_by_username(username)
+      return username
+    end
+    count = 0
+    while User.find_by_username(username+count.to_s)
+      count+=1
+    end
+    return username+count.to_s
+  end
 end

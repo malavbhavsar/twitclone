@@ -4,5 +4,7 @@ class User < ActiveRecord::Base
       :class_name => "FollowTable"
 
   has_many :twits
+  
+  validates :username, :uniqueness => true
 
 end

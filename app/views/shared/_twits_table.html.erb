@@ -3,12 +3,12 @@
 		<% @twits.each do |twit| %>
 		<tr>
 			<td>
-				<img src=<%= twit.user.google_pic%> height='48' width = '48' ><%= link_to twit.user.google_name, user_timeline_path(twit.user.id)%> 
+				<img src=<%= twit.user.google_pic%> height='48' width = '48' ><%= link_to twit.user.google_name, user_timeline_path(twit.user.username)%> <%=twit.user.username%> 
 			</td>
 		</tr>
 		<tr>
 			<td style="word-break:break-all;">
-				<%=auto_link(twit.status, :hashtag_url_base=> '/tag/' , :suppress_no_follow=> true ).html_safe%>
+				<%=auto_link(twit.status, :hashtag_url_base=> '/tag/', :username_url_base=>'/user_timeline/'  , :suppress_no_follow=> true ).html_safe%>
  			</td>
 		</tr>
 		<% end %>
