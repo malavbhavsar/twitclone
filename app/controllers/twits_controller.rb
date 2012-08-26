@@ -47,6 +47,7 @@ class TwitsController < ApplicationController
     @twits = current_user.twits
     current_user.follow_instances.each do |x| (array+=x.followed.twits) end
     @twits += array
+    @twits += Twit.tagged_with(current_user.username, :on => :usernames)
     @twits.sort! {|x,y| y.created_at<=>x.created_at}
   #not sure if this works correctly!
   end
@@ -66,6 +67,7 @@ class TwitsController < ApplicationController
     @twits = @user.twits
     @user.follow_instances.each do |x| (array+=x.followed.twits) end
     @twits += array
+    @twits += Twit.tagged_with(@user.username, :on => :usernames)
     @twits.sort! {|x,y| y.created_at<=>x.created_at} #not sure if this works correctly!
   end
 
@@ -81,6 +83,7 @@ class TwitsController < ApplicationController
       else 'https://ssl.gstatic.com/s2/profiles/images/silhouette96.png' end})
     twit = Twit.new({:status=>params['twit'], :user_id=>user['id']})
     twit.tag_list = extract_hashtags(params['twit']).uniq.join(",")
+    twit.username_list = extract_mentioned_screen_names(params['twit']).uniq.join(",")
     twit.save
     redirect_to :action=>'index'
   end
@@ -100,7 +103,7 @@ class TwitsController < ApplicationController
   end
   
   def tag
-    @twits = Twit.tagged_with(params['taglabel']).by_join_date
+    @twits = Twit.tagged_with(params['taglabel'], :on => :tags).by_join_date
   end
   
   def suggest_username(username)
