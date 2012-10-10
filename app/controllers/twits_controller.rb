@@ -38,7 +38,11 @@ class TwitsController < ApplicationController
   end
 
   def index
-    @twits = Twit.order('created_at DESC').all
+    @twits = Twit.page(params[:page]).order('created_at DESC')
+    respond_to do |format|
+      format.html # index.html.erb
+      ajax_respond format, :section_id => "page"
+    end
   end
 
   def my_timeline
