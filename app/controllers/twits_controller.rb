@@ -41,6 +41,7 @@ class TwitsController < ApplicationController
     @twits = Twit.page(params[:page]).order('created_at DESC')
     respond_to do |format|
       format.html # index.html.erb
+      format.xml  { render :xml => @twits }
       ajax_respond format, :section_id => "page"
     end
   end
@@ -54,6 +55,10 @@ class TwitsController < ApplicationController
     @twits += Twit.tagged_with(current_user.username, :on => :usernames)
     @twits.sort! {|x,y| y.created_at<=>x.created_at}
   #not sure if this works correctly!
+    respond_to do |format|
+      format.html
+      format.xml  { render :xml => @twits }
+    end
   end
   
   
@@ -65,7 +70,7 @@ class TwitsController < ApplicationController
     end
     if @user == current_user
       redirect_to(:action=> 'my_timeline')
-    end
+    else
 
     array = Array.new
     @twits = @user.twits
@@ -73,6 +78,11 @@ class TwitsController < ApplicationController
     @twits += array
     @twits += Twit.tagged_with(@user.username, :on => :usernames)
     @twits.sort! {|x,y| y.created_at<=>x.created_at} #not sure if this works correctly!
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @twits }
+    end
+    end
   end
 
   def create
@@ -108,6 +118,12 @@ class TwitsController < ApplicationController
   
   def tag
     @twits = Twit.tagged_with(params['taglabel'], :on => :tags).by_join_date
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @twits }
+    end
+
   end
   
   def suggest_username(username)
