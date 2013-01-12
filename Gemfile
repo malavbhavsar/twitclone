@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.1'
+gem 'rails', '3.2.11'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -33,9 +33,9 @@ gem 'jquery-rails'
 
 gem 'yettings'
 
-gem 'twitter-text', '~> 1.5.0'
+gem 'twitter-text'
 
-gem 'acts-as-taggable-on', '~> 2.3.1'
+gem 'acts-as-taggable-on'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
