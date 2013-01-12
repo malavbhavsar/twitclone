@@ -18,8 +18,8 @@
 						<a href=<%=my_timeline_path%>>My Timeline</a>
 					</li>
 				</ul>
-				<%= render 'shared/twits_table'%>
-			</div>
+              <%= ajax_section :id => "page", :render => "twits_table" %>
+            </div>
 		</div>
 	</div>
 </div>

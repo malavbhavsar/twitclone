@@ -1,5 +1,6 @@
 <table class = 'table table-bordered table-striped table-condensed'>
 	<tbody>
+    <%= ajax_loadzone do %>
     <% @twits.each do |twit| %>
 		<tr>
 			<td>
@@ -12,5 +13,9 @@
  			</td>
 		</tr>
 	<% end %>
+    <% end %>
 	</tbody>
 </table>
+<%= ajax_links :section_id => "twits_table" do %>
+<%= will_paginate @twits %>
+<% end %>
